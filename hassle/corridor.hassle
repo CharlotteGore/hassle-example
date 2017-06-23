@@ -1,0 +1,92 @@
+$DoorBackToReception
+  name = exit to reception
+  @open = YES
+  verbPull:
+    @open = NO
+  verbPush:
+    @open = YES
+  verbOpen:
+    @open = YES
+  verbLookAt:
+    -> its_a_door
+  verbUse:
+    @open == YES ? goToRoom(reception, StartRight) : -> its_closed
+
+$StairsToHotelRooms
+  name = stairs to hotel rooms
+  verbLookAt:
+    -> its_stairs
+  verbUse:
+    goToRoom(hotelrooms, StartLeft)
+
+$MainCeremonyRoom
+  name = entrance to Ceremony Hall
+  verbOpen:
+    -> better_not
+  verbPush:
+    -> better_not
+  verbUse:
+    -> better_not
+
+$Toy
+  name = freaky toy robot thing?
+  verbLookAt:
+    !confirmed_asbestos == YES ? -> its_robot : -> its_toy
+  verbPickUp:
+    !confirmed_asbestos == YES ? -> boy.stole_it : -> check_with_boy
+  verbPush:
+    -> never_push
+  verbPull:
+    -> never_push
+
+*Boy
+  name = Little Bilge
+  @crying = NO
+  verbLookAt:
+    !crying_boy == YES ? -> lookat_crying_boy : -> lookat_boy
+  verbTalkTo:
+    !crying_boy == YES ? -> boy.notalk
+    !talked_to_boy == YES ? -> boy.main : -> boy.intro
+  verbUse:
+    with(emptybottle) AND !crying_boy == YES ? -> get_tears
+    with(perfume) AND !crying_boy == YES ? -> boy.too_full
+
+:better_not
+Steggy: I think I'd better sort out this slug situation before going in there.
+
+:its_stairs
+Steggy: It's stairs!
+
+:its_closed
+Steggy: It's a bit too closed for that.
+
+:its_a_door
+Steggy: Basically it's a door.
+
+:its_robot
+Steggy: It's a Yorkshire Robotics robot, made from asbestos.
+Steggy: I think I HAVE to take it now!
+
+:its_toy
+Steggy: It's some sort of toy robot.
+
+:never_push
+Steggy: No way. I know how that ends.
+Steggy: You push robots around, and then its on Youtube...
+Steggy: And then it's the Robot Uprising.
+
+:check_with_boy
+Steggy: I'd better talk to Little Bilge first [talked_to_boy == NO]
+Steggy: Can't just steal it without a good excuse. [talked_to_boy == YES]
+Steggy: Maybe I should interrogate Little Bilge more? [talked_to_boy == YES]
+
+:lookat_boy
+Steggy: That's Little Bilge. Worst child ever.
+
+:lookat_crying_boy
+Steggy: That's Little Bilge. I feel a bit bad now.
+
+:get_tears
+Steggy: Yes, that's it.
+Steggy: Give me your tears!
+{replace(emptybottle, tears)}

@@ -1,0 +1,74 @@
+$DoorToOutside
+  name = exit to outside
+  @open = YES
+  verbPull:
+    @open = NO
+  verbPush:
+    @open = YES
+  verbOpen:
+    @open = YES
+  verbClose:
+    @open = NO
+  verbLookAt:
+    -> its_a_door
+  verbUse:
+    @open == YES ? goToRoom(outside, StartRight) : -> its_closed
+
+$DoorToCorridor
+  name = exit to Hotel Rooms and Ceremony Hall
+  @open = NO
+  verbPull:
+    @open = NO
+  verbPush:
+    @open = YES
+  verbOpen:
+    @open = YES
+  verbClose:
+    @open = NO
+  verbLookAt:
+    -> its_a_door
+  verbUse:
+    @open == YES ? goToRoom(corridor, StartLeft) : -> its_closed
+
+*Uncle
+  name = Crazy Uncle Harbert
+  verbLookAt:
+    -> lookat_harbert
+  verbTalkTo:
+    !said_hello == YES ? -> uncle.main : -> uncle.hello
+
+*Barman
+  name = Barman
+  verbLookAt:
+    -> lookat_barman
+  verbGive:
+    with(invitation) ? -> barman.invited
+  verbUse:
+    with(invitation) ? -> barman.invited
+  verbTalkTo:
+    !has_invitation == YES ? -> barman.invited : -> barman.hello
+
+$StairsToRestaurant
+  name = stairs to Restaurant
+  verbLookAt:
+    -> its_stairs
+  verbUse:
+    goToRoom(restaurant, StartMiddle)
+
+:its_closed
+Steggy: I'd love to but it's closed.
+
+:its_a_door
+Steggy: It's either a door...
+Steggy: ... Or a piece of wood that's being used as a door.
+
+:its_stairs
+Steggy: It's stairs!
+
+:lookat_harbert
+!harbert_look++
+Steggy: It's Crazy Uncle Harbert!
+Steggy: We started calling him that when he moved to Lancashire [harbert_look == 1]
+
+:lookat_barman
+Steggy: I don't think he likes being looked at.

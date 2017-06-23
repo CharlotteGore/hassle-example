@@ -1,0 +1,74 @@
+:intro
+!talked_to_boy = YES
+Steggy: Ey up Bilge.
+Boy: Ugh. Go away, Steggy.
+-> main
+
+:main
+1  No! You go away! -> goaway [showonce]
+1  You're a cheeky bugger! -> goaway [once AND doing_insults == YES]
+1  HOW DARE YOU! -> goaway [once AND doing_insults == YES]
+1  Why are you like this? -> goaway [once AND doing_insults == YES]
+2  So what's that robot thing? -> robot [once]
+2  I thought they only made robots for old people? -> oldpeople [once]
+2  Didn't those get recalled or something? -> asbestos [once]
+2  I feel you lack parental supervision. -> supervise [once]
+3  Lovely chatting, as always. -> bye
+
+:goaway
+!doing_insults = YES
+!you_go_away++
+Boy: I was here first, grandma [you_go_away == 1]
+Boy: You're a smelly fart. [you_go_away == 2]
+Boy: You know this is a wedding, right? [you_go_away == 3]
+Boy: You could have got dressed up. [you_go_away == 3]
+Boy: Is this going to take all day? [you_go_away == 4]
+Boy: I have important work to do. [you_go_away == 4]
+-> main
+
+:robot
+Boy: Oh my god. Don't you know anything?
+Boy: THAT is my Yorkshire Robotics robot!
+{rename(Toy, Yorkshire Robotics robot, made from asbestos.)}
+-> main
+
+:oldpeople
+Boy: Why haven't you got one then?
+-> main
+
+:asbestos
+!confirmed_asbestos = YES
+Boy: Yeah something about its got aspergers in it.
+Steggy: You mean asbestos?
+Boy: Whatever. You can't get high on it though.
+Boy: How do you even inhale a robot?
+Boy: You can't! It's too big!
+Steggy: Oh my god.
+-> main
+
+:supervise
+Boy: You're just jealous that I drive a better car than you.
+Steggy: You're ten years old!
+Boy: And you're a hundred years old. So what?
+-> main
+
+:bye
+Boy: Whatever.
+
+:notalk
+Steggy: I should probably leave him be.
+
+:stole_it
+Steggy: I'm sorry but this isn't a safe toy.
+Boy: Tyranny!
+Steggy: It's for your own good.
+Boy: This is the Nanny State!
+{pickup(Toy, toy)}
+Steggy: Yes, and I'm going to put this robot in a crusher.
+Boy: {crying}
+!crying_boy = YES
+Boy: Waaaaaaaaaah!
+Steggy: I think he's a bit... salty.
+
+:too_full
+Steggy: I need to get rid of the perfume first.

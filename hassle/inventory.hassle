@@ -1,0 +1,129 @@
+^toy
+  name = Yorkshire Robotics Toy Robot
+  verbLookAt:
+    -> lookat_toy
+  verbUse:
+    with(fan) ? -> grind_robot
+
+^fan
+  name = Yorkshire Robotics Hurricane in Your Hand
+  verbLookAt:
+    -> warning
+  verbUse:
+    with(toy) ? -> grind_robot : -> danger
+
+^perfume
+  name = Hebden No. 5 perfume
+  verbLookAt:
+    -> lookat_perfume
+  verbOpen:
+    -> toxic
+  verbUse:
+    with(Sink) ? -> kitchen.empty_perfume
+
+^emptybottle
+  name = empty perfume spray bottle
+  verbLookAt:
+    -> lookat_emptybottle
+
+^fish
+  name = truly stinky bit of fish
+  verbLookAt:
+    -> lookat_fish
+
+^tears
+  name = Eau d'Salty tears
+  verbLookAt:
+    -> lookat_tears
+
+^invitation
+  name = Bernard's wedding invitation
+  verbLookAt:
+    -> lookat_invitation
+
+^asbestos
+  name = asbestos dust
+  verbLookAt:
+    -> lookat_dust
+  verbUse:
+    with(dirt) ? -> mixmud
+
+^dirt
+  name = a clump of sticky mud
+  verbLookAt:
+    -> lookat_dirt
+  verbUse:
+    with(asbestos) ? -> mixmud
+
+^confetti
+  name = sticky brown confeffi subtitute
+  verbLookAt:
+    -> lookat_confetti
+
+^beer
+  name = two pints of Sowerby Pumper
+  verbLookAt:
+    -> lookat_beer
+
+:lookat_toy
+Steggy: It's a Yorkshire Robotics robot made from asbestos.
+Steggy: The hottest craze in Calderdale!
+
+:grind_robot
+Steggy: Sorry about this, robot.
+Steggy: I really hope you can't feel pain.
+{playSound(grind)}
+{replace(toy, asbestos)}
+Steggy: Oh well.
+
+:warning
+Steggy: It's a Yorkshire Robotics handheld fan.
+Steggy: Wow, those blades look sharp enough to chop up a house!
+
+:danger
+Steggy: I don't think it would survive that.
+Steggy: This thing looks lethal!
+
+:toxic
+Steggy: Danger! Extremely Corrosive! [once]
+Steggy: In case of contact with skin seek emergency medical attention. [once]
+Steggy: Hmmm... I'd Better find a safer way to empty this.
+
+:lookat_perfume
+Steggy: It's a bottle of Hebden No. 5 perfume.
+Steggy: Not sure this stuff is exactly legal.
+
+:lookat_emptybottle
+Steggy: It's an empty perfume spray bottle.
+
+:lookat_fish
+Steggy: This is the second worst smelling thing I've ever put in my bag.
+
+:lookat_tears
+Steggy: It's a perfume bottle filled with a child's tears.
+Steggy: Hopefully salty enough to detect a Slug Monster!
+
+:lookat_invitation
+Steggy: It's my brother's invitation to this wedding. They spelt his name wrong.
+
+:lookat_dust
+Steggy: That's extremely dangerous asbestos dust.
+Steggy: I probably shouldn't hang on to this for too long.
+
+:lookat_dirt
+Steggy: It's a clump of sticky mud.
+
+:lookat_confetti
+Steggy: It's brown confetti.
+Steggy: At least, that's what I'd tell the police.
+
+:mixmud
+Steggy: Okay. Mash the mud and the asbestos together...
+Steggy: Wow! Not too clumpy! Not too dusty! It's like...
+Steggy: Sticky brown confetti!
+{replace(dirt, confetti)}
+{destroy(asbestos)}
+
+:lookat_beer
+Steggy: It's two pints of Sowerby Pumper.
+Steggy: Irresistible to slugs and Yorkshire folk.

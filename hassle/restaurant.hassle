@@ -1,0 +1,65 @@
+$DoorToKitchen
+  name = exit to Kitchen
+  @open = NO
+  verbOpen:
+    @open = YES
+  verbPush:
+    @open = YES
+  verbClose:
+    @open = NO
+  verbPull:
+    @open = NO
+  verbUse:
+    @open == YES ? goToRoom(kitchen, StartRight) : -> should_open_it
+  verbLookAt:
+    @open == YES ? -> door_is_open : -> door_is_closed
+
+$StairsToDownstairs
+  name = stairs to Reception
+  verbUse:
+    goToRoom(reception, StartRight)
+  verbLookAt:
+    -> its_downstairs
+
+$Fan
+  name = handheld fan thing?
+  verbLookAt:
+    -> explore_fan
+  verbPickUp:
+    -> get_fan
+  verbPush:
+    @poop = YES
+
+*Grubwump
+  name = Mrs. Grubwump
+  verbLookAt:
+    -> lookat_mrs_grubwump
+  verbTalkTo:
+    !got_fish == YES ? -> grubwump.hellosmell
+    !lost_perfume == YES ? -> grubwump.notalk : -> grubwump.hello
+  verbUse:
+    -> grubwump.nouse
+
+:lookat_mrs_grubwump
+Steggy: That's Mrs. Grubwump.
+Steggy: She owns Grubwumb's Gluten Free Sock and Mitten shop.
+
+:door_is_open
+Steggy: It's how you get into the kitchen.
+
+:door_is_closed
+Steggy: It's the door to the kitchen, but it's closed.
+
+:should_open_it
+Steggy: Maybe I should open it first?
+
+:get_fan
+Steggy: Oo that tickles!
+{pickup(Fan, fan)}
+
+:explore_fan
+Steggy: Oh! It's a Yorkshire Robotics 'Hurricane In Your Hand'
+{rename(Fan, 'Yorkshire Robotics Hurricane In Your Hand')}
+
+:its_downstairs
+Steggy: That's the stairs back to the reception area.

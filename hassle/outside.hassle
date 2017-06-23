@@ -1,0 +1,105 @@
+$DirtPile
+  name = Mud
+  verbLookAt:
+    -> lookat_dirt
+  verbPickUp:
+    give(dirt)
+
+$OutsideDoor
+  name = Entrance to the Wedding Venue
+  @open = NO
+  verbPull:
+    @open = NO
+  verbPush:
+    @open = YES
+  verbOpen:
+    @open = YES
+  verbClose:
+    @open = NO
+  verbLookAt:
+    @open == YES ? -> its_open : -> its_closed
+  verbUse:
+    @open == YES ? goToRoom(reception, StartLeft) : -> should_open_it
+
+*BrideA
+  name = Maybe Bertrella?
+  verbLookAt:
+    !done_the_intro == YES ? -> lookat_bride_a : -> express_surprise
+  verbGive:
+    with(beer) ? -> brides.givebeer : -> dont_want_that
+  verbUse:
+    with(confetti) ? -> brides.dirtify
+    with(beer) ? -> brides.givebeer
+    with(tears) ? -> brides.saltify
+    with(dirt) ? -> too_clumpy
+    with(asbestos) ? -> too_fine
+    -> already_furious
+  verbTalkTo:
+    !done_the_intro == YES ? -> brides.main : -> brides.intro
+
+*BrideB
+  name = Bertrella, Maybe?
+  verbLookAt:
+    !done_the_intro == YES ? -> lookat_bride_b : -> express_surprise
+  verbGive:
+    with(beer) ? -> brides.givebeer : -> dont_want_that
+  verbUse:
+    with(confetti) ? -> brides.dirtify
+    with(beer) ? -> brides.givebeer
+    with(tears) ? -> brides.saltify
+    with(dirt) ? -> too_clumpy
+    with(asbestos) ? -> too_fine
+  verbTalkTo:
+    !done_the_intro == YES ? -> brides.main : -> brides.intro
+
++TriggerIntro
+  !game_intro_done = NO
+    -> intro
+
++TriggerFinale
+  !wet_and_salty == YES
+  !covered_in_dirt == YES
+  !beer_given == YES
+    -> brides.finale
+
+:intro
+!game_intro_done = YES
+Steggy: Ah, what a lovely day for a wedding!
+Steggy: I hope nothing goes wrong!
+
+:express_surprise
+Steggy: Hey that's weird!
+Steggy: There appears to be two Bertrellas!
+
+:lookat_bride_a
+Steggy: She's either Bertrella or a Slug Monster. Hmm.
+
+:lookat_bride_b
+Steggy: She's either a Slug Monster or Bertrella. Hmm.
+
+:lookat_dirt
+Steggy: It's... sticky mud. Lovely, lovely mud.
+
+:dont_want_that
+Steggy: I don't think either of them want that.
+
+:too_clumpy
+Steggy: It's good and sticky but it's too clumpy.
+Steggy: I wonder if there's something I could mix it with?
+
+:too_fine
+Steggy: It'll just blow away in the wind.
+Steggy: I wonder if there's something I could mix it with?
+
+:already_furious
+Steggy: I'd better not.
+Steggy: They're already furious with me.
+
+:its_open
+Steggy: It's an open door!
+
+:its_closed
+Steggy: It's a closed door!
+
+:should_open_it
+Steggy: I need to open the door first.

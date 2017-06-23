@@ -1,0 +1,26 @@
+$StairsToCorridor
+  name = stairs back to corridor
+  verbUse:
+    goToRoom(corridor, StartRight)
+  verbLookAt:
+    -> its_stairs
+
+*Bernard
+  name = Bernard
+  verbLookAt:
+    -> lookat_bernard
+  verbTalkTo:
+    -> bernard.hello
+  verbGive:
+    -> no_stuff
+
+:its_stairs
+Steggy: It's some stairs!
+
+:lookat_bernard
+Steggy: It's Bernard, my brother.
+
+:no_stuff
+Bernard: I don't want your stuff.
+Steggy: Aw go on.
+Bernard: No.

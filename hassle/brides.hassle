@@ -1,0 +1,113 @@
+:intro
+!done_the_intro = YES
+BrideA: Steggy! You have to help me!
+Steggy: Ey up, what's the matter?
+BrideB: Get away from her, Steggy!
+BrideB: That's not me! That's...
+BrideB: THAT'S A SLUG MONSTER!
+Steggy: What the actual...
+BrideA: No! She's the slug monster!
+BrideB: You're the slug monster!
+BrideA: You're ruining my wedding!!
+BrideB: You're ruining MY wedding!!!
+BrideA: NO YOU!
+-> main
+
+:main
+1  Okay. Which one of you is the real Bertrella? -> menome [once]
+2  A Slug Monster says what? -> what [once]
+3  Tell me something only the real Bertrella would know. -> knowledge [once]
+3  Tell me something you can't find on Twitter. -> knowledge [once]
+3  Tell me something you can't find on Google. -> knowledge [once]
+4  This is classic you, Bertrella. -> classic [once]
+5  I guess muggins here needs to get this sorted out. -> done
+
+:menome
+BrideA: Me!
+BrideB: No! Me!
+BrideA: ME!
+BrideB: LIAR!
+Steggy: I had a feeling it wouldn't be that easy.
+-> main
+
+:what
+BrideB: What?
+BrideA: What?
+-> main
+
+:knowledge
+!asked_for_knowledge++
+BrideA:  I know you were once sick in my handbag. [asked_for_knowledge == 1]
+BrideB:  I know you blamed it on Noncy Paul! [asked_for_knowledge == 1]
+Steggy:  It WAS Noncy Paul! [asked_for_knowledge == 1]
+BrideB:  I know you're afraid you're being watched by a duck! [asked_for_knowledge == 2]
+BrideA:  I know the duck is called Bernard! [asked_for_knowledge == 2]
+Steggy:  Bernard? My brother Bernard? Is a duck? [asked_for_knowledge == 2]
+BrideA:  I know your birthday is in June [asked_for_knowledge == 3]
+Steggy:  July. [asked_for_knowledge == 3]
+BrideB:  I know you're 30 this year [asked_for_knowledge == 3]
+Steggy:  26. And thanks for that. [asked_for_knowledge == 3]
+Steggy:  Sigh. This is no use. [asked_for_knowledge == 3]
+-> main
+
+:classic
+BrideA: This has only happened once before, Steggy.
+BrideB: Yeah I mean not like this ALWAYS happens.
+Steggy: Okay, okay. Whatever.
+-> main
+
+:givebeer
+BrideA: Sowerby Pumper! Ooo lovely!
+BrideB: Give me some!
+BrideA: Me first!
+BrideB: NO ME!
+Steggy: Hmmm. Results inconclusive.
+!beer_given = YES
+
+:dirtify
+Steggy: Ey up, look at this!
+Steggy: It's sticky brown confetti!
+Steggy: Try not to breathe it in though...
+BrideA: {dirtidle}
+BrideB: {dirtidle}
+Steggy: Oops.
+BrideA: What is wrong with you, Steggy?
+Steggy: I needed to know which one of you was the stickiest!
+BrideB: Her! She's the stickiest!
+BrideA: NO! IT'S HER!
+Steggy: Bloody hell.
+{destroy(confetti)}
+!covered_in_dirt = YES
+
+:saltify
+Steggy: This HAS to work...
+BrideA: You sprayed me!
+BrideB: Me too!
+Steggy: Either of you feeling a bit... melty?
+BrideA: Melty? No.
+BrideB: Angry? Yes.
+BrideA: She's melting though! Look!
+BrideB: I'm not! You are! Look!
+Steggy: OH COME ON.
+!wet_and_salty = YES
+
+:done
+BrideB: Hurry! Everyone's waiting for me!
+BrideA: They're waiting for me!
+BrideB: No me!
+BrideA: NO ME!
+Steggy: *Sigh*
+
+:finale
+Steggy: Well, that's all three tests.
+Steggy: I still have no idea which one of you is which.
+Steggy: So... what now?
+Groom: {goto(GroomMark)}
+Groom: Steggy! Help!
+Steggy: What's happened!
+Groom: I've been cloned by a Slug Monster!
+Steggy: {goto(SteggyExitMark)}
+Steggy: Two brides? And now two grooms?
+Steggy: You know what?
+Steggy: SORT IT OUT YOURSELVES.
+{runCredits()}

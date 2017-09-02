@@ -1,3 +1,5 @@
+--scope = always
+
 :cant_lookat
 Steggy: No, please, don't make me look at it!
 
@@ -15,15 +17,15 @@ Steggy: I can't close that.
 
 :cant_give
 !random = RND 1 TO 3
-Steggy: No! It's mine! [random == 1]
-Steggy: You can't make me give that away! [random == 2]
-Steggy: I don't want to! [random == 3]
+Steggy: No! It's mine! [!random == 1]
+Steggy: You can't make me give that away! [!random == 2]
+Steggy: I don't want to! [!random == 3]
 
 :cant_talkto
 !random = RND 1 TO 3
-Steggy: Hello! [random == 1]
-Steggy: Hiya! [random == 2]
-Steggy: Ey up! [random == 3]
+Steggy: Hello! [!random == 1]
+Steggy: Hiya! [!random == 2]
+Steggy: Ey up! [!random == 3]
 
 :cant_push
 Steggy: I can't push that.

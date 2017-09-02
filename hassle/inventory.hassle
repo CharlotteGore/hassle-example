@@ -1,3 +1,5 @@
+--scope = always
+
 ^toy
   name = Yorkshire Robotics Toy Robot
   verbLookAt:
@@ -10,7 +12,8 @@
   verbLookAt:
     -> warning
   verbUse:
-    with(toy) ? -> grind_robot : -> danger
+    notWith(toy) ? -> danger
+    with(toy) ? -> grind_robot
 
 ^perfume
   name = Hebden No. 5 perfume
@@ -72,8 +75,8 @@ Steggy: The hottest craze in Calderdale!
 :grind_robot
 Steggy: Sorry about this, robot.
 Steggy: I really hope you can't feel pain.
-{playSound(grind)}
-{replace(toy, asbestos)}
+playSound(grind)
+replace(toy, asbestos)
 Steggy: Oh well.
 
 :warning
@@ -121,8 +124,8 @@ Steggy: At least, that's what I'd tell the police.
 Steggy: Okay. Mash the mud and the asbestos together...
 Steggy: Wow! Not too clumpy! Not too dusty! It's like...
 Steggy: Sticky brown confetti!
-{replace(dirt, confetti)}
-{destroy(asbestos)}
+replace(dirt, confetti)
+destroy(asbestos)
 
 :lookat_beer
 Steggy: It's two pints of Sowerby Pumper.

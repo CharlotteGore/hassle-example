@@ -1,62 +1,72 @@
+--scope = reception
+
 $DoorToOutside
   name = exit to outside
+  default = open
   @open = YES
   verbPull:
-    @open = NO
+    @open == YES ? @open = NO : -> generics.its_already_closed
   verbPush:
-    @open = YES
+    -> gotooutside
   verbOpen:
-    @open = YES
+    -> gotooutside
   verbClose:
-    @open = NO
+    @open == YES ? @open = NO : -> generics.its_already_closed
   verbLookAt:
     -> its_a_door
   verbUse:
-    @open == YES ? goToRoom(outside, StartRight) : -> its_closed
+    -> gotooutside
+
+:gotooutside
+@DoorToOutside.open = YES
+goToRoom(outside, StartRight)
 
 $DoorToCorridor
   name = exit to Hotel Rooms and Ceremony Hall
+  default = open
   @open = NO
   verbPull:
-    @open = NO
+    @open == YES ? @open = NO : -> generics.its_already_closed
   verbPush:
-    @open = YES
+    -> gotocorridor
   verbOpen:
-    @open = YES
+    -> gotocorridor
   verbClose:
-    @open = NO
+    @open == YES ? @open = NO : -> generics.its_already_closed
   verbLookAt:
     -> its_a_door
   verbUse:
-    @open == YES ? goToRoom(corridor, StartLeft) : -> its_closed
+    -> gotocorridor
+
+:gotocorridor
+@DoorToCorridor.open = YES
+goToRoom(corridor, StartLeft)
 
 *Uncle
   name = Crazy Uncle Harbert
   verbLookAt:
     -> lookat_harbert
   verbTalkTo:
-    !said_hello == YES ? -> uncle.main : -> uncle.hello
+    !said_hello == YES ? -> unclemain : -> unclehello
 
 *Barman
   name = Barman
   verbLookAt:
     -> lookat_barman
   verbGive:
-    with(invitation) ? -> barman.invited
+    with(invitation) ? -> invited
   verbUse:
-    with(invitation) ? -> barman.invited
+    with(invitation) ? -> invited
   verbTalkTo:
-    !has_invitation == YES ? -> barman.invited : -> barman.hello
+    !has_invitation == YES ? -> invited : -> barmanhello
 
 $StairsToRestaurant
   name = stairs to Restaurant
+  default = use
   verbLookAt:
     -> its_stairs
   verbUse:
     goToRoom(restaurant, StartMiddle)
-
-:its_closed
-Steggy: I'd love to but it's closed.
 
 :its_a_door
 Steggy: It's either a door...
@@ -68,7 +78,143 @@ Steggy: It's stairs!
 :lookat_harbert
 !harbert_look++
 Steggy: It's Crazy Uncle Harbert!
-Steggy: We started calling him that when he moved to Lancashire [harbert_look == 1]
+Steggy: We started calling him that when he moved to Lancashire [!harbert_look == 1]
 
 :lookat_barman
 Steggy: I don't think he likes being looked at.
+
+:unclehello
+!said_hello = YES
+Uncle: Alright, Stella?
+Steggy: No-one calls me that any more, Uncle!
+-> unclemain
+
+:unclemain
+1  Bertrella has been cloned by a Slug Monster! -> preamble [showonce]
+2  Aren't you Burnley's foremost authority on slugs? -> slugs [once]
+3  Any idea how to build a Slug Monster detector? -> detector [once]
+3  Let's talk about beer! -> beer [!explained == YES]
+4  Explain the sticky thing! -> sticky [!explained == YES]
+5  Let's chat about salt! -> salt [!explained == YES]
+6  I'd better get cracking -> bye
+
+:preamble
+Uncle: Ah! So that's why there's two of them?
+Steggy: Yes!
+-> unclemain
+
+:slugs
+Uncle: No, but I did have a slug in my garden once?
+Steggy: Close enough!
+-> unclemain
+
+:detector
+!explained = YES
+Uncle: Hmm let me see...
+Uncle: Slugs are attracted to beer, aren't they?
+Uncle: And slugs are also stickier than humans.
+Uncle: That could be useful knowledge!
+Uncle: And salt, of course. Slugs hate salt.
+Uncle: Ah but there's no salt for miles.
+-> unclemain
+
+:beer
+Uncle: Ah yes. Slugs love beer!
+Steggy: Right!
+Uncle: And this is a wedding. There should be some beer somewhere!
+Steggy: Great!
+-> unclemain
+
+:sticky
+Uncle: Perhaps if you could fill the air with something?
+Uncle: Something that might stick to slugs?
+Steggy: Like what?
+Uncle: Hmm I'd suggest confetti but there's an international confetti shortage.
+Steggy: Oh bugger.
+-> unclemain
+
+:salt
+Uncle: Now obviously some sort of salt spray would be perfect!
+Steggy: It was the first thing I thought of.
+Uncle: But... salt is illegal now.
+Steggy: Oh yeah! Our new prime minister banned it!
+Uncle: Yes. Our sticky, beer loving Prime Minister.
+Steggy: I do not find this suspicious!
+Uncle: Hopefully you can find a way to make some salt?
+-> unclemain
+
+:bye
+Uncle: It's nice seeing you again Stella!
+
+:barmanhello
+!talked_to_barman = YES
+Barman: Yes?
+-> barmanmain
+
+:barmanmain
+1  Two pints of your finest ales my good man! -> no [once]
+1  But this is a bridesmaid's dress! -> dress [once]
+1  FINE! I'll pay! With cash! -> bastard [once]
+2  I've had enough of this! -> barmanbye
+
+:invited
+Steggy: I have an invitation now. Happy?
+Barman: No. But what can I get you?
+-> choices
+
+:choices
+1  Two pints of Mythomroyd Mugglebrew? -> muggle [once]
+2  Two pints of Todmorden Tipple? -> shower [once]
+3  Two pints of Elland's Finest Liver Bypass? -> bypass [once]
+4  Two pints of Sowerby Pumper? -> pumper [once]
+5  I need to think about it. -> fuckoff
+
+:no
+!been_rejected = YES
+Barman: Invitation?
+Steggy: You're kidding?
+Barman: No invitation, no beer.
+
+:dress
+!rude = YES
+Steggy: You think I normally dress like this?
+Barman: You get all sorts in here.
+-> barmanmain
+
+:bastard
+!rude = NO
+Barman: Two pints? That'll be one million pounds please.
+Steggy: Hilarious.
+Barman: Invitation, or bugger off.
+-> barmanmain
+
+:muggle
+Barman: It's off.
+Steggy: Damn you!
+-> choices
+
+:shower
+Barman: It's off!
+Steggy: Seriously?
+-> choices
+
+:bypass
+Barman: Coming right up!
+Barman: Oh. No. It's off.
+Steggy: Naturally.
+-> choices
+
+:pumper
+Barman: It's... off!
+Steggy: Really?!
+Barman: Oh. Wait hang on, I forgot to turn the beer thingy on.
+Steggy: The 'beer thingy'?
+Barman: Yeah. Right, here you go.
+give(beer)
+Steggy: WAS THAT SO HARD?
+
+:barmanbye
+Barman: Don't forget to leave a tip.
+
+:fuckoff
+Barman: Okay.

@@ -1,21 +1,29 @@
+--scope = restaurant
+
 $DoorToKitchen
   name = exit to Kitchen
-  @open = NO
-  verbOpen:
-    @open = YES
-  verbPush:
-    @open = YES
-  verbClose:
-    @open = NO
+  default = open
+  @open = YES
   verbPull:
-    @open = NO
-  verbUse:
-    @open == YES ? goToRoom(kitchen, StartRight) : -> should_open_it
+    @open == YES ? @open = NO : -> generics.its_already_closed
+  verbPush:
+    -> gotokitchen
+  verbOpen:
+    -> gotokitchen
+  verbClose:
+    @open == YES ? @open = NO : -> generics.its_already_closed
   verbLookAt:
-    @open == YES ? -> door_is_open : -> door_is_closed
+    -> door_is_open
+  verbUse:
+    -> gotokitchen
+
+:gotokitchen
+@DoorToKitchen.open = YES
+goToRoom(kitchen, StartRight)
 
 $StairsToDownstairs
   name = stairs to Reception
+  default = use
   verbUse:
     goToRoom(reception, StartRight)
   verbLookAt:
@@ -32,11 +40,12 @@ $Fan
 
 *Grubwump
   name = Mrs. Grubwump
+  @noperfume = NO
   verbLookAt:
     -> lookat_mrs_grubwump
   verbTalkTo:
-    !got_fish == YES ? -> grubwump.hellosmell
-    !lost_perfume == YES ? -> grubwump.notalk : -> grubwump.hello
+    !got_fish == YES ? -> hellosmell
+    !lost_perfume == YES ? -> notalk : -> hello
   verbUse:
     -> grubwump.nouse
 
@@ -47,19 +56,75 @@ Steggy: She owns Grubwumb's Gluten Free Sock and Mitten shop.
 :door_is_open
 Steggy: It's how you get into the kitchen.
 
-:door_is_closed
-Steggy: It's the door to the kitchen, but it's closed.
-
-:should_open_it
-Steggy: Maybe I should open it first?
-
 :get_fan
 Steggy: Oo that tickles!
-{pickup(Fan, fan)}
+pickup(Fan, fan)
 
 :explore_fan
 Steggy: Oh! It's a Yorkshire Robotics 'Hurricane In Your Hand'
-{rename(Fan, 'Yorkshire Robotics Hurricane In Your Hand')}
+rename(Fan, 'Yorkshire Robotics Hurricane In Your Hand')
 
 :its_downstairs
 Steggy: That's the stairs back to the reception area.
+
+:hello
+Grubwump: Oh, hello dear.
+-> main
+
+:main
+1  I couldn't help noticing you have a perfume sprayer. -> bottle [once]
+2  I don't suppose I could borrow your perfume? -> borrow [once]
+2  Seriously though please? I need it! -> borrow [once]
+2  It's an emergency! Really! -> borrow [once]
+3  Bertrella has been cloned by a Slug Monster! -> business
+4  Bye Mrs. Grubwump. -> bye
+
+:hellosmell
+Grubwump: Oh my goodness you smell like a tramp's underpants!
+-> fish
+
+:fish
+1  I don't suppose I could borrow your perfume now then? -> smell
+2  Bye Mrs. Grubwump! -> smellbye
+
+:smell
+!lost_perfume = YES
+Grubwump: Oh yes, yes, take it! Please!
+give(perfume)
+@Grubwump.noperfume = YES
+Grubwump: Now go! Before I chuck up me dinner!
+Steggy: Say no more, Mrs. Grubwump!
+
+:bottle
+Grubwump: Why yes, it's Hebden No. 5. Beautiful, don't you agree?
+-> main
+
+:borrow
+!confirmed_need_smell = YES
+!smell++
+Grubwump: Whatever for, my dear? You smell delightful!
+Grubwump: *sniff* Like christmas pudding! [!smell == 1]
+Grubwump: *sniff* Like freshly washed socks! [!smell == 2]
+Grubwump: *sniff* Like cashmere mittens! [!smell == 3]
+-> main
+
+:business
+Grubwump: Again?
+Steggy: I know. She must attract them or something.
+-> main
+
+:notalk
+Steggy: No way.
+Steggy: She'll try to sell me some mittens.
+
+:bye
+Grubwump: Don't forget to come to my shop!
+Grubwump: Mittens are socks for your hands!
+Steggy: I will Mrs. Grubwump.
+
+:smellbye
+Grubwump: Please! Go away! I'm going to be sick!
+Steggy: I'm going, I'm going!
+
+:nouse
+Steggy: I don't think she'd like that.

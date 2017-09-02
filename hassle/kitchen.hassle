@@ -1,3 +1,5 @@
+--scope = kitchen
+
 $Bin
   name = the world's most awful bin
   verbPickUp:
@@ -9,8 +11,8 @@ $Bin
 !got_fish = YES
 Steggy: Oh, what a stink!
 Steggy: I bet they can smell this at the other end of the Valley!
-{give(fish)}
-{rename(Bin, somehow still the world's most awful bin)}
+give(fish)
+rename(Bin, somehow still the world's most awful bin)
 
 :not_going_in_there
 Steggy: I'm not putting my hands in that thing without a good reason.
@@ -22,10 +24,10 @@ Steggy: {bad_smell}
 Steggy: That fish was all the treasure I need from that bin. [once]
 
 :find_fish
-Steggy: Ew. There's a right nasty bit of haddock in there. [seen_fish == NO]
-Steggy: Yep. Still a horrible bit of haddock. [seen_fish == YES]
+Steggy: Ew. There's a right nasty bit of haddock in there. [!seen_fish == NO]
+Steggy: Yep. Still a horrible bit of haddock. [!seen_fish == YES]
 !seen_fish = YES
-{rename(Bin, a bin containing a right nasty bit of haddock)}
+rename(Bin, a bin containing a right nasty bit of haddock)
 
 $Sink
   name = horrendously disgusting sink
@@ -36,25 +38,30 @@ $Sink
 
 $BackToRestaurant
   name = exit to Restaurant
+  default = open
   @open = YES
-  verbOpen:
-    @open = YES
-  verbPush:
-    @open = YES
-  verbClose:
-    @open = NO
   verbPull:
-    @open = NO
-  verbUse:
-    @open == YES ? goToRoom(restaurant, StartLeft) : -> should_open_it
+    @open == YES ? @open = NO : -> generics.its_already_closed
+  verbPush:
+    -> gotoresturant
+  verbOpen:
+    -> gotoresturant
+  verbClose:
+    @open == YES ? @open = NO : -> generics.its_already_closed
   verbLookAt:
     @open == YES ? -> door_is_open : -> door_is_closed
+  verbUse:
+    -> gotoresturant
+
+:gotoresturant
+@BackToRestaurant.open = YES
+goToRoom(restaurant, StartLeft)
 
 :empty_perfume
 Steggy: The council will probably consider this an environmental disaster.
 Steggy: Still, at least the sink smells nicer now.
-{replace(perfume, emptybottle)}
-{rename(Sink, Horrendously disgusting sink but now with a hint of lavender)}
+replace(perfume, emptybottle)
+rename(Sink, Horrendously disgusting sink but now with a hint of lavender)
 
 :door_is_open
 Steggy: It's an open door to the restaurant.
@@ -62,13 +69,9 @@ Steggy: It's an open door to the restaurant.
 :door_is_closed
 Steggy: It's a door. That's closed.
 
-:should_open_it
-Steggy: I'm going to have to open the door first.
-Steggy: Stupid physics. [once | poop == YES]
-
 :empty_perfume
 Steggy: Goodbye Hebden No. 5, Hello empty bottle!
-{replace(perfume, emptybottle)}
+replace(perfume, emptybottle)
 
 :not_the_sink
 Steggy: I think all that's good for is...

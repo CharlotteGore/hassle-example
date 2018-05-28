@@ -1,0 +1,84 @@
+--light is 0.21 0.3 0
+--saturation is 1.2
+--threshold is 0.05
+--trackspeed is 0.9
+--tint is 1 1 1
+--zoom is 13.5
+
+Object:Bin
+  name is the world's most awful bin
+  on pickup
+    if !confirmed_need_smell !seen_fish !got_fish is false run make_fish otherwise run not_going_in_there
+  on lookat
+    if !got_fish run empty_bin otherwise run find_fish
+
+scene:make_fish
+(!got_fish is true)
+Steggy: Oh, what a stink!
+Steggy: I bet they can smell this at the other end of the Valley!
+call give with fish
+call rename with Bin, somehow still the world's most awful bin
+
+scene:not_going_in_there
+Steggy: I'm not putting my hands in that thing without a good reason.
+
+scene:empty_bin
+(!bin_look increases)
+Steggy: No no no.
+Steggy: That fish was all the treasure I need from that bin. [once]
+
+scene:find_fish
+Steggy: Ew. There's a right nasty bit of haddock in there. [!seen_fish is false]
+Steggy: Yep. Still a horrible bit of haddock. [!seen_fish]
+(!seen_fish is true)
+call rename with Bin, a bin containing a right nasty bit of haddock
+
+Object:Sink
+  name is horrendously disgusting sink
+  on use
+    if (with perfume) run empty_perfume otherwise run not_the_sink
+  on lookat
+    if !seen_sink is false run lookat_sink
+
+Object:BackToRestaurant
+  name is exit to Restaurant
+  default is open
+  @open is on
+  on pull close
+    if @open is on run closeDoor otherwise run generics.its_already_closed
+  on push open use
+    run gotoresturant
+  on lookat
+    if @open is on run door_is_open otherwise run door_is_closed
+
+scene:closeDoor
+(@BackToRestaurant.open is off)
+
+scene:gotoresturant
+(@BackToRestaurant.open is on)
+call goToRoom with restaurant, StartLeft
+
+scene:empty_perfume
+Steggy: The council will probably consider this an environmental disaster.
+Steggy: Still, at least the sink smells nicer now.
+call replace with perfume, emptybottle
+call rename with Sink, Horrendously disgusting sink but now with a hint of lavender
+
+scene:door_is_open
+Steggy: It's an open door to the restaurant.
+
+scene:door_is_closed
+Steggy: It's a door. That's closed.
+
+scene:empty_perfume
+Steggy: Goodbye Hebden No. 5, Hello empty bottle!
+call replace with perfume, emptybottle
+
+scene:not_the_sink
+Steggy: I think all that's good for is...
+Steggy: ...getting rid of hazardous chemicals.
+
+scene:lookat_sink
+(!seen_sink is true)
+Steggy: It's a sink filled with what can only be described as... matter.
+Steggy: Maybe this isn't the best venue for a wedding.

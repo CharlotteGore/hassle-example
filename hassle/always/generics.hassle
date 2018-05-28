@@ -1,0 +1,48 @@
+scene:cant_lookat
+Steggy: No, please, don't make me look at it!
+
+scene:cant_pickup
+Steggy: I can't pick that up.
+
+scene:cant_use
+Steggy: I'd better not.
+
+scene:cant_open
+Steggy: I can't open that.
+
+scene:cant_close
+Steggy: I can't close that.
+
+scene:cant_give
+(randomise !random from 1 to 3)
+Steggy: No! It's mine! [!random is 1]
+Steggy: You can't make me give that away! [!random is 2]
+Steggy: I don't want to! [!random is 3]
+
+scene:cant_talkto
+(randomise !random from 1 to 3)
+call incrementSteamStat with hello_count
+Steggy: Hello! [!random is 1]
+Steggy: Hiya! [!random is 2]
+Steggy: Ey up! [!random is 3]
+
+scene:cant_push
+Steggy: I can't push that.
+
+scene:cant_pull
+Steggy: I can't pull that.
+
+scene:its_an_open_door
+Steggy: It's an open door.
+
+scene:its_a_closed_door
+Steggy: It's a closed door.
+
+scene:open_it_first
+Steggy: I should open it first.
+
+scene:its_already_open
+Steggy: It's already open
+
+scene:its_already_closed
+Steggy: It's already closed

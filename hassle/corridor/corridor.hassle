@@ -1,0 +1,99 @@
+--light is 0.18 0.26 0.4
+--saturation is 1.08
+--threshold is 0.03
+--trackspeed is 0.9
+--tint is 1 1 1
+--zoom is 15.5
+
+Object:DoorBackToReception
+  name is exit to reception
+  default is open
+  @open is on
+  on pull close
+    if @open is on run closeReceptionDoor otherwise run generics.its_already_closed
+  on push open use
+    run gotoreception
+  on lookat
+    run its_a_door
+
+scene:closeReceptionDoor
+(@DoorBackToReception.open is off)
+
+scene:gotoreception
+(@DoorBackToReception.open is on)
+call goToRoom with reception, StartRight
+
+Object:StairsToHotelRooms
+  name is stairs to hotel rooms
+  default is use
+  on lookat
+    run its_stairs
+  on use
+    run goToHotelRooms
+
+scene:goToHotelRooms
+call goToRoom with hotelrooms, StartLeft
+
+Object:MainCeremonyRoom
+  name is entrance to Ceremony Hall
+  on open push use lookat
+    run better_not
+
+Object:Toy
+  name is freaky toy robot thing
+  on lookat
+    if !confirmed_asbestos run its_robot otherwise run its_toy
+  on pickup
+    if !confirmed_asbestos run boy.stole_it otherwise run check_with_boy
+  on push pull
+    run never_push
+
+Actor:Boy
+  name is Little Bilge
+  @crying is off
+  on lookat
+    if !crying_boy run lookat_crying_boy otherwise run lookat_boy
+  on talkto
+    if !crying_boy run boy.notalk
+    if !talked_to_boy run boy.main otherwise run boy.intro
+  on use
+    if (with emptybottle) !crying_boy run get_tears
+    if (with perfume) !crying_boy run boy.too_full
+
+scene:better_not
+Steggy: I think I'd better sort out this slug situation before going in there.
+
+scene:its_stairs
+Steggy: It's stairs!
+
+scene:its_a_door
+Steggy: Basically it's a door.
+
+scene:its_robot
+Steggy: It's a Yorkshire Robotics robot, made from asbestos.
+Steggy: I think I HAVE to take it now!
+
+scene:its_toy
+Steggy: It's some sort of toy robot.
+
+scene:never_push
+Steggy: No way. I know how that ends.
+Steggy: You push robots around, and then its on Youtube...
+Steggy: And then it's the Robot Uprising.
+
+scene:check_with_boy
+Steggy: I'd better talk to Little Bilge first [!talked_to_boy is false]
+Steggy: Can't just steal it without a good excuse. [!talked_to_boy]
+Steggy: Maybe I should interrogate Little Bilge more? [!talked_to_boy]
+
+scene:lookat_boy
+Steggy: That's Little Bilge. Worst child ever.
+
+scene:lookat_crying_boy
+Steggy: That's Little Bilge. I feel a bit bad now.
+
+scene:get_tears
+Steggy: Yes, that's it.
+Steggy: Give me your tears!
+call activateAchievement with HM_TEARS
+call replace with emptybottle, tears

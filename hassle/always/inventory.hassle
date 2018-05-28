@@ -1,0 +1,130 @@
+Inventory:toy
+   name is Yorkshire Robotics Toy Robot
+  on lookat
+    run lookat_toy
+  on use
+    if (with fan) run grind_robot
+
+Inventory:fan
+   name is Yorkshire Robotics Hurricane in Your Hand
+  on lookat
+    run warning
+  on use
+    if (notWith toy) run danger
+    if (with toy) run grind_robot
+
+Inventory:perfume
+   name is Hebden No. 5 perfume
+  on lookat
+    run lookat_perfume
+  on open
+    run toxic
+  on use
+    if (with Sink) run kitchen.empty_perfume
+
+Inventory:emptybottle
+   name is empty perfume spray bottle
+  on lookat
+    run lookat_emptybottle
+
+Inventory:fish
+   name is truly stinky bit of fish
+  on lookat
+    run lookat_fish
+
+Inventory:tears
+   name is Eau d'Salty tears
+  on lookat
+    run lookat_tears
+
+Inventory:invitation
+   name is Bernard's wedding invitation
+  on lookat
+    run lookat_invitation
+
+Inventory:asbestos
+   name is asbestos dust
+  on lookat
+    run lookat_dust
+  on use
+    if (with dirt) run mixmud
+
+Inventory:dirt
+   name is a clump of sticky mud
+  on lookat
+    run lookat_dirt
+  on use
+    if (with asbestos) run mixmud
+
+Inventory:confetti
+   name is sticky brown confeffi subtitute
+  on lookat
+    run lookat_confetti
+
+Inventory:beer
+   name is two pints of Sowerby Pumper
+  on lookat
+    run lookat_beer
+
+scene:lookat_toy
+Steggy: It's a Yorkshire Robotics robot made from asbestos.
+Steggy: The hottest craze in Calderdale!
+
+scene:grind_robot
+Steggy: Sorry about this, robot.
+Steggy: I really hope you can't feel pain.
+call playSound with grind
+call replace with toy, asbestos
+Steggy: Oh well.
+
+scene:warning
+Steggy: It's a Yorkshire Robotics handheld fan.
+Steggy: Wow, those blades look sharp enough to chop up a house!
+
+scene:danger
+Steggy: I don't think it would survive that.
+Steggy: This thing looks lethal!
+
+scene:toxic
+Steggy: Danger! Extremely Corrosive! [once]
+Steggy: In case of contact with skin seek emergency medical attention. [once]
+Steggy: Hmmm... I'd Better find a safer way to empty this.
+
+scene:lookat_perfume
+Steggy: It's a bottle of Hebden No. 5 perfume.
+Steggy: Not sure this stuff is exactly legal.
+
+scene:lookat_emptybottle
+Steggy: It's an empty perfume spray bottle.
+
+scene:lookat_fish
+Steggy: This is the second worst smelling thing I've ever put in my bag.
+
+scene:lookat_tears
+Steggy: It's a perfume bottle filled with a child's tears.
+Steggy: Hopefully salty enough to detect a Slug Monster!
+
+scene:lookat_invitation
+Steggy: It's my brother's invitation to this wedding. They spelt his name wrong.
+
+scene:lookat_dust
+Steggy: That's extremely dangerous asbestos dust.
+Steggy: I probably shouldn't hang on to this for too long.
+
+scene:lookat_dirt
+Steggy: It's a clump of sticky mud.
+
+scene:lookat_confetti
+Steggy: It's brown confetti.
+Steggy: At least, that's what I'd tell the police.
+
+scene:mixmud
+Steggy: Okay. Mash the mud and the asbestos together...
+Steggy: Wow! Not too clumpy! Not too dusty! It's like...
+Steggy: Sticky brown confetti!
+call replace with dirt, confetti
+call destroy with asbestos
+
+scene:lookat_beer
+Steggy: It's two pints of Sowerby Pumper.
+Steggy: Irresistible to slugs and Yorkshire folk.

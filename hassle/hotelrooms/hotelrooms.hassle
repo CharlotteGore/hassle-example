@@ -1,0 +1,37 @@
+--light is 0.54 0.39 0.08
+--saturation is 0.9
+--threshold is 0.12
+--trackspeed is 0.9
+--tint is 1 1 1
+--zoom is 14.25
+
+Object:StairsToCorridor
+  name is stairs back to corridor
+  default is use
+  on use
+    run goToCorridor
+  on lookat
+    run its_stairs
+
+scene:goToCorridor
+call goToRoom with corridor, StartRight
+
+Actor:Bernard
+  name is Bernard
+  on lookat
+    run lookat_bernard
+  on talkto
+    run bernard.hello
+  on give
+    run no_stuff
+
+scene:its_stairs
+Steggy: It's some stairs!
+
+scene:lookat_bernard
+Steggy: It's Bernard, my brother.
+
+scene:no_stuff
+Bernard: I don't want your stuff.
+Steggy: Aw go on.
+Bernard: No.

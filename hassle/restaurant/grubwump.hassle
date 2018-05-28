@@ -1,0 +1,65 @@
+scene:hello
+Grubwump: Oh, hello dear.
+run main
+
+puzzle:main
+1  I couldn't help noticing you have a perfume sprayer. -> bottle [once]
+2  I don't suppose I could borrow your perfume? -> borrow [once]
+2  Seriously though please? I need it! -> borrow [once]
+2  It's an emergency! Really! -> found_what_smell_like [once]
+3  Bertrella has been cloned by a Slug Monster! -> business
+4  Bye Mrs. Grubwump. -> bye
+
+scene:hellosmell
+Grubwump: Oh my goodness you smell like a tramp's underpants!
+run fish
+
+puzzle:fish
+1  I don't suppose I could borrow your perfume now then? -> smell [once]
+2  Bye Mrs. Grubwump! -> smellbye
+
+scene:smell
+(!lost_perfume is true)
+Grubwump: Oh yes, yes, take it! Please!
+call give with perfume
+(@Grubwump.noperfume is on)
+Grubwump: Now go! Before I chuck up me dinner!
+Steggy: Say no more, Mrs. Grubwump!
+
+scene:bottle
+Grubwump: Why yes, it's Hebden No. 5. Beautiful, don't you agree?
+run main
+
+scene:found_what_smell_like
+call activateAchievement with HM_PUDDING
+run borrow
+
+scene:borrow
+(!confirmed_need_smell is true)
+(!smell increases)
+Grubwump: Whatever for, my dear? You smell delightful! [once]
+Grubwump: *sniff* Like christmas pudding! [!smell is 1]
+Grubwump: *sniff* Like freshly washed socks! [!smell is 2]
+Grubwump: *sniff* Like cashmere mittens! [!smell is 3]
+run main
+
+scene:business
+Grubwump: Again?
+Steggy: I know. She must attract them or something. [once]
+run main
+
+scene:notalk
+Steggy: No way.
+Steggy: She'll try to sell me some mittens. [once]
+
+scene:bye
+Grubwump: Don't forget to come to my shop!
+Grubwump: Mittens are socks for your hands! [once]
+Steggy: I will Mrs. Grubwump. [once]
+
+scene:smellbye
+Grubwump: Please! Go away! I'm going to be sick!
+Steggy: I'm going, I'm going!
+
+scene:nouse
+Steggy: I don't think she'd like that.

@@ -1,68 +1,38 @@
---scope = hotelrooms
-
-$StairsToCorridor
-  name = stairs back to corridor
-  default = use
-  verbUse:
-    goToRoom(corridor, StartRight)
-  verbLookAt:
-    -> its_stairs
-
-*Bernard
-  name = Bernard
-  verbLookAt:
-    -> lookat_bernard
-  verbTalkTo:
-    -> hello
-  verbGive:
-    -> no_stuff
-
-:its_stairs
-Steggy: It's some stairs!
-
-:lookat_bernard
-Steggy: It's Bernard, my brother.
-
-:no_stuff
-Bernard: I don't want your stuff.
-Steggy: Aw go on.
-Bernard: No.
-
-:hello
+scene:hello
 Bernard: Ey up, Steggy!
--> main
+run main
 
-:main
+puzzle:main
 1  Bertrella's been cloned by a Slug Monster! -> clone [once]
-2  Please may I have your invitation? -> please [!talked_to_barman == YES AND !has_invitation == NO]
-3  I heard you weren't invited to the wedding. -> invite [!talked_to_barman == YES AND !has_invitation == NO]
+2  Please may I have your invitation? -> please [!talked_to_barman !has_invitation is false]
+3  I heard you weren't invited to the wedding. -> invite [!talked_to_barman !has_invitation is false]
 4  So how's that novel coming on? -> novel [once]
 5  I'm going to sort out this slug situation -> bye
 
-:clone
+scene:clone
 Bernard: Classic Bertrella.
 Steggy: I know, right?
--> main
+run main
 
-:invite
+scene:invite
 Steggy: Bertrella was very specific.
 Bernard: Lies!
 Steggy: No Bernard. That's what she said!
 Bernard: Oh yeah? What do you call this then?
-give(invitation)
-!has_invitation = YES
+call give with invitation
+(!has_invitation is true)
 Steggy: Oh! It's your invitation?
 Steggy: Never mind. I'll just...
 Steggy: ... hang on to this. For safety.
 Bernard: Okay!
--> main
+run main
 
-:please
+scene:please
 Bernard: No.
--> main
+run main
 
 
-:novel
+scene:novel
 Bernard: My treatise on the sociological implications of contemporary robotics?
 Steggy: I thought it was a story about a cat called Jeff Goldblum?
 Bernard: It isn't.
@@ -74,8 +44,10 @@ Steggy: So he eats it.
 Bernard: Where are you getting this from?
 Steggy: And he has to buy another hat!
 Bernard: OKAY FINE. Yes. I'm nearly done. Happy?
+call pause with 1
 Steggy: Very.
--> main
+call activateAchievement with HM_JEFF
+run main
 
-:bye
+scene:bye
 Bernard: Have fun.

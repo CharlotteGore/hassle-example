@@ -1,0 +1,74 @@
+scene:intro
+(!talked_to_boy is true)
+Steggy: Ey up Bilge.
+Boy: Ugh. Go away, Steggy.
+run main
+
+puzzle:main
+1  No! You go away! -> goaway [showonce]
+1  You're a cheeky bugger! -> goaway [once !doing_insults]
+1  HOW DARE YOU! -> goaway [once !doing_insults]
+1  Why are you like this? -> goaway [once !doing_insults]
+2  So what's that robot thing? -> robot [once]
+2  I thought they only made robots for old people? -> oldpeople [once]
+2  Didn't those get recalled or something? -> asbestos [once]
+2  I feel you lack parental supervision. -> supervise [once]
+3  Lovely chatting, as always. -> bye
+
+scene:goaway
+(!doing_insults is true)
+(!you_go_away increases)
+Boy: I was here first, grandma [!you_go_away is 1]
+Boy: You're a smelly fart. [!you_go_away is 2]
+Boy: You know this is a wedding, right? [!you_go_away is 3]
+Boy: You could have got dressed up. [!you_go_away is 3]
+Boy: Is this going to take all day? [!you_go_away is 4]
+Boy: I have important work to do. [!you_go_away is 4]
+run main
+
+scene:robot
+Boy: Oh my god. Don't you know anything?
+Boy: THAT is my Yorkshire Robotics robot!
+call rename with Toy, Yorkshire Robotics robot made from asbestos.
+run main
+
+scene:oldpeople
+Boy: Why haven't you got one then?
+run main
+
+scene:asbestos
+(!confirmed_asbestos is true)
+Boy: Yeah something about its got aspergers in it.
+Steggy: You mean asbestos?
+Boy: Whatever. You can't get high on it anyway.
+Boy: How do you even inhale a robot?
+Boy: You can't! It's too big!
+Steggy: Oh my god.
+run main
+
+scene:supervise
+Boy: You're just jealous that I drive a better car than you.
+Steggy: You're ten years old!
+Boy: And you're a hundred years old. So what?
+run main
+
+scene:bye
+Boy: Whatever.
+
+scene:notalk
+Steggy: I should probably leave him be.
+
+scene:stole_it
+Steggy: I'm sorry but this isn't a safe toy.
+Boy: Tyranny!
+Steggy: It's for your own good.
+Boy: This is the Nanny State!
+call pickup with Toy, toy
+Steggy: Yes, and I'm going to put this robot in a crusher.
+call setAnimationState with Boy, crying
+(!crying_boy is true)
+Boy: Waaaaaaaaaah!
+Steggy: I think he's a bit... salty.
+
+scene:too_full
+Steggy: I need to get rid of the perfume first.

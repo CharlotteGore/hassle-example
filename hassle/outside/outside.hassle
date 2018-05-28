@@ -1,0 +1,273 @@
+--light is 0.69 0.61 0.54
+--saturation is 1.01
+--threshold is 0.16
+--trackspeed is 0.9
+--tint is 1 1 1
+--zoom is 17.25
+
+Object:DirtPile
+  name is Mud
+  on lookat
+    run lookat_dirt
+  on pickup
+    if (notTaken dirt) run giveDirt otherwise run enoughdirtthanks
+
+scene:giveDirt
+call give with dirt
+
+scene:enoughdirtthanks
+Steggy: Once was enough, I think.
+
+Object:OutsideDoor
+  name is Entrance to the Wedding Venue
+  default is open
+  @open is on
+  on pull close
+    if @open is on run closeDoor otherwise run generics.its_already_closed
+  on push open use
+    run goinside
+  on lookat
+    if @open is on run its_open otherwise run its_closed
+
+scene:closeDoor
+(@OutsideDoor.open is off)
+
+scene:goinside
+(@OutsideDoor.open is on)
+call goToRoom with reception, StartLeft
+
+Actor:BrideA
+  name is Maybe Bertrella
+  @dirty is off
+  on lookat
+    if !done_the_intro run lookat_bride_a otherwise run express_surprise
+  on give
+    run testGive
+  on use
+    run testBrideUse
+  on talkto
+    run talkToBrides
+
+Actor:BrideB
+  name is Bertrella, Maybe
+  @dirty is off
+  on lookat
+    if !done_the_intro run lookat_bride_b otherwise run express_surprise
+  on give
+    run testGive
+  on use
+    run testBrideUse
+  on talkto
+    run talkToBrides
+
+# Because we can do conditional branching inside script blocks now,
+# we can make some blocks that both bride characters can use instead of
+# having to duplicate all the code. Neat!
+scene:talkToBrides
+if !done_the_intro run main otherwise run intro
+
+scene:testGive
+if (with beer) run givebeer otherwise run dont_want_that
+
+scene:testBrideUse
+if (with confetti) run dirtify
+if (with beer) run givebeer
+if (with tears) run saltify
+if (with dirt) run too_clumpy
+if (with asbestos) run too_fine
+run already_furious
+
+Trigger:TriggerIntro
+  run gameintro
+
+Trigger:TriggerFinale
+  !wet_and_salty is true
+  !covered_in_dirt is true
+  !beer_given is true
+    run finale
+
+scene:gameintro
+(!game_intro_done is true)
+Steggy: Ah, what a lovely day for a wedding!
+Steggy: I hope nothing goes wrong!
+call triggerComplete with TriggerIntro
+call activateAchievement with HM_BEAUTIFUL_DAY
+
+scene:express_surprise
+Steggy: Hey that's weird!
+Steggy: There appears to be two Bertrellas!
+
+scene:lookat_bride_a
+Steggy: She's either Bertrella or a Slug Monster. Hmm.
+
+scene:lookat_bride_b
+Steggy: She's either a Slug Monster or Bertrella. Hmm.
+
+scene:lookat_dirt
+[INTERRUPTIBLE]
+Steggy: It's... sticky mud. Lovely, lovely mud.
+
+scene:dont_want_that
+Steggy: I don't think either of them want that.
+
+scene:too_clumpy
+Steggy: It's good and sticky but it's too clumpy.
+Steggy: I wonder if there's something I could mix it with?
+
+scene:too_fine
+Steggy: It'll just blow away in the wind.
+Steggy: I wonder if there's something I could mix it with?
+
+scene:already_furious
+Steggy: I'd better not.
+Steggy: They're already furious with me.
+
+scene:its_open
+Steggy: It's an open door!
+
+scene:its_closed
+Steggy: It's a closed door!
+
+scene:intro
+(!done_the_intro is true)
+BrideA: Steggy! You have to help me!
+Steggy: Ey up, what's the matter?
+BrideB: Get away from her, Steggy!
+BrideB: That's not me!
+BrideB: THAT'S A SLUG MONSTER!
+Steggy: What the actual...
+BrideA: No! She's the slug monster!
+BrideB: You're the slug monster!
+BrideA: You're ruining my wedding!!
+BrideB: You're ruining MY wedding!!!
+BrideA: NO YOU!
+run main
+
+puzzle:main
+1  Okay. Which one of you is the real Bertrella? -> menome [once]
+2  A Slug Monster says what? -> what [once]
+3  Tell me something only the real Bertrella would know. -> knowledge [once]
+3  Tell me something you can't find on Twitter. -> knowledge [once]
+4  This is classic you, Bertrella. -> classic [once]
+5  I guess muggins here needs to get this sorted out. -> bernard_is_a_duck [!asked_for_knowledge is 2 !triggered_bernard is false]
+5  I guess muggins here needs to get this sorted out. -> done
+
+scene:menome
+BrideA: Me!
+BrideB: No! Me!
+BrideA: ME!
+BrideB: LIAR!
+Steggy: I had a feeling it wouldn't be that easy.
+run main
+
+scene:what
+BrideB: What?
+BrideA: What?
+run main
+
+scene:bernard_is_a_duck
+(!triggered_bernard is false)
+call activateAchievement with HM_BERNARD_DUCK
+run done
+
+scene:knowledge
+# This has been drastically improved thanks to conditionals..
+# we can now just jump to a script block rather than adding a whole
+# bunch of dialogue conditions to lines. This makes the scripts
+# a LOT neater.
+(!asked_for_knowledge increases)
+if !asked_for_knowledge is 1 run firstExcuse
+if !asked_for_knowledge is 2 run secondExcuse
+run main
+
+scene:firstExcuse
+BrideA:  I know you were once sick in my handbag.
+BrideB:  I know you blamed it on Normal Paul!
+Steggy:  It WAS Normal Paul!
+run main
+
+scene:secondExcuse
+BrideB:  I know you're afraid you're being watched by a duck!
+BrideA:  I know the duck is called Bernard!
+Steggy:  Bernard? My brother Bernard? Is a duck?
+Steggy:  Sigh. This is no use.
+run main
+
+scene:classic
+BrideA: This has only happened once before, Steggy.
+BrideB: Yeah I mean not like this ALWAYS happens.
+Steggy: Okay, okay. Whatever.
+run main
+
+scene:givebeer
+BrideA: Sowerby Pumper! Ooo lovely!
+BrideB: Give me some!
+BrideA: Me first!
+BrideB: NO ME!
+call activateAchievement with HM_ENBOOZENING
+Steggy: Hmmm. Results inconclusive.
+call destroy with beer
+(!beer_given is true)
+
+scene:dirtify
+Steggy: Ey up, look at this!
+Steggy: It's sticky brown confetti!
+Steggy: Try not to breathe it in though...
+(@BrideA.dirty is on)
+(@BrideB.dirty is on)
+Steggy: Oops.
+call activateAchievement with HM_ENMUDDENING
+BrideA: What is wrong with you, Steggy?
+Steggy: I needed to know which one of you was the stickiest!
+BrideB: Her! She's the stickiest!
+BrideA: NO! IT'S HER!
+Steggy: Bloody hell.
+call destroy with confetti
+(!covered_in_dirt is true)
+
+scene:saltify
+Steggy: This HAS to work...
+BrideA: You sprayed me!
+call activateAchievement with HM_ENDRENCHENING
+BrideB: Me too!
+Steggy: Either of you feeling a bit... melty?
+BrideA: Melty? No.
+BrideB: Angry? Yes.
+BrideA: She's melting though! Look!
+BrideB: I'm not! You are! Look!
+Steggy: OH COME ON.
+call replace with tears, emptybottle
+(!wet_and_salty is true)
+
+scene:done
+BrideB: Hurry! Everyone's waiting for me!
+BrideA: They're waiting for me! [once]
+BrideB: No me! [once]
+BrideA: NO ME! [once]
+Steggy: *Sigh* [once]
+
+scene:finale
+call pause with 0.5
+Steggy: Well, that's all three tests.
+Steggy: I still have no idea which one of you is which.
+Steggy: So... what now?
+(Groom teleports to GroomSpawn)
+(Groom moves to GroomMark)
+Groom: Steggy! Help!
+(Steggy moves to TalkToGroom)
+Steggy: What's happened!
+Groom: I've been cloned by a Slug Monster!
+(GroomClone teleports to GroomSpawn)
+(GroomClone moves to OtherGroomMark)
+GroomClone: Steggy! Help!
+call pause with 1
+Steggy: You know what?
+call activateAchievement with HM_COMPLETE
+(GroomThree teleports to GroomSpawn)
+(GroomThree moves to YetOtherGroomMark)
+GroomThree: Steggy! Help!
+(Steggy moves to SteggyExitMark)
+Steggy: No that's just ridiculous now.
+Steggy: SORT IT OUT YOURSELVES.
+call triggerComplete with TriggerFinale
+call runCredits with null

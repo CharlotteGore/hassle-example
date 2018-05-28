@@ -1,0 +1,72 @@
+--light is 0.55 0.47 0.4
+--saturation is 1.28
+--threshold is 0.03
+--trackspeed is 0.9
+--tint is 1 1 1
+--zoom is 15.5
+
+Object:DoorToKitchen
+  name is exit to Kitchen
+  default is open
+  @open is on
+  on pull close
+    if @open is on run closeDoorToKitchen otherwise run generics.its_already_closed
+  on push open use
+    run gotokitchen
+  on lookat
+    run door_is_open
+
+scene:closeDoorToKitchen
+(@DoorToKitchen.open is off)
+
+scene:gotokitchen
+(@DoorToKitchen.open is on)
+call goToRoom with kitchen, StartRight
+
+Object:StairsToDownstairs
+  name is stairs to Reception
+  default is use
+  on use
+    run goDownstairs
+  on lookat
+    run its_downstairs
+
+scene:goDownstairs
+call goToRoom with reception, StartRight
+
+Object:Fan
+  name is handheld fan thing
+  on lookat
+    run explore_fan
+  on pickup
+    run get_fan
+
+Actor:Grubwump
+  name is Mrs. Grubwump
+  @noperfume is off
+  on lookat
+    run lookat_mrs_grubwump
+  on talkto
+    if !got_fish run grubwump.hellosmell
+    if !lost_perfume run grubwump.notalk otherwise run grubwump.hello
+  on use
+    if (with fish) run grubwump.hellosmell
+    run grubwump.nouse
+
+scene:lookat_mrs_grubwump
+Steggy: That's Mrs. Grubwump.
+Steggy: She owns Grubwumb's Gluten Free Sock and Mitten shop.
+
+scene:door_is_open
+Steggy: It's how you get into the kitchen.
+
+scene:get_fan
+Steggy: Oo that tickles!
+call pickup with Fan, fan
+
+scene:explore_fan
+Steggy: Oh! It's a Yorkshire Robotics 'Hurricane In Your Hand'
+call rename with Fan, 'Yorkshire Robotics Hurricane In Your Hand'
+
+scene:its_downstairs
+Steggy: That's the stairs back to the reception area.

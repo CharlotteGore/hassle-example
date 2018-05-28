@@ -1,0 +1,446 @@
+name: 'HASSLE'
+fileTypes: ['hassle']
+repository: {
+  'conditional_blocks': {
+    name: 'conditional_blocks.hassle'
+    patterns: [
+      {
+        match: '(once|showonce|mute|unique|randomise|randomize|increases|decreases)'
+        name: 'support.constant.hassle'
+      }
+      {
+        match: '(![\\w]+)\\s(is)\\s(true|false|on|off)'
+        captures: {
+          1: { name: 'entity.name.tag.hassle' }
+          2: { name: 'keyword.operator.hassle' }
+          3: { name: 'support.constant.hassle' }
+        }
+      }
+      {
+        match: '(@[\\w]+)\\.([\\w]+)\\s(is)\\s(on|off)'
+        captures: {
+          1: { name: 'entity.name.object.hassle' }
+          2: { name: 'entity.name.tag.hassle' }
+          3: { name: 'keyword.operator.hassle' }
+          4: { name: 'support.constant.hassle' }
+        }
+      }
+      {
+        match: '(@[\\w]+)\\s(is)\\s(on|off)'
+        captures: {
+          1: { name: 'entity.name.tag.hassle' }
+          2: { name: 'keyword.operator.hassle' }
+          3: { name: 'support.constant.hassle' }
+        }
+      }
+      {
+        match: '(![\\w]+)'
+        captures: {
+          1: { name: 'entity.name.tag.hassle' }
+        }
+      }
+      {
+        match: '(@[\\w]+)\\.([\\w]+)'
+        captures: {
+          1: { name: 'entity.name.object.hassle' }
+          2: { name: 'entity.name.tag.hassle' }
+        }
+      }
+      {
+        match: '(@[\\w]+)'
+        captures: {
+          1: { name: 'entity.name.tag.hassle' }
+        }
+      }
+    ]
+  }
+  'run_script': {
+    name: 'verb_triggered_jump'
+    match: '(run)\\s(\\w+)(\\s|)$'
+    captures: {
+      1: { name: 'entity.name.function.hassle' }
+      2: { name: 'entity.name.function.hassle' }
+    }
+  }
+  'run_remote_script': {
+    name: 'verb_triggered_jump'
+    match: '(run)\\s(\\w+)\\.(\\w+)'
+    captures: {
+      1: { name: 'entity.name.function.hassle' }
+      2: { name: 'entity.name.tag.hassle' }
+      3: { name: 'entity.name.function.hassle' }
+    }
+  }
+  'global_set': {
+    name: 'set_global.hassle'
+    match: '(!\\w+)\\s(is)\\s(true|false|\\d+)'
+    captures: {
+      1: { name: 'entity.name.tag.hassle' }
+      2: { name: 'keyword.operator.hassle'}
+      3: {
+        patterns: [
+          {
+            match: '(true|false)'
+            name: 'support.constant.hassle'
+          }
+          {
+            match: '(\\d+)'
+            name: 'constant.numeric.hassle'
+          }
+        ]
+      }
+    }
+  }
+  'global_comparison': {
+    match: '(!\\w+)\\s(is)\\s(true|false|\\d+)'
+    captures: {
+      1: { name: 'entity.name.tag.hassle' }
+      2: { name: 'keyword.operator.hassle' }
+      3: {
+        patterns: [
+          {
+            match: '(true|false)'
+            name: 'support.constant.hassle'
+          }
+          {
+            match: '(\\d+)'
+            name: 'constant.numeric.hassle'
+          }
+        ]
+      }
+    }
+  }
+  'remote_comparison': {
+    match: '(@\\w+)(\\.)(\\w+)\\s(is)\\s(on|off)'
+    captures: {
+      1: { name: 'entity.name.object.hassle' }
+      2: { name: 'keyword.operator.hassle' }
+      3: { name: 'entity.name.tag.hassle' }
+      4: { name: 'keyword.operator.hassle' }
+      5: { name: 'support.constant.hassle' }
+    }
+  }
+  'remote_set': {
+    name: 'set_global.hassle'
+    match: '(@\\w+)\\.(\\w+)\\s(is)\\s(on|off)'
+    captures: {
+      1: { name: 'entity.name.object.hassle' }
+      2: { name: 'entity.name.tag.hassle' }
+      3: { name: 'keyword.operator.hassle'}
+      4: { name: 'support.constant.hassle' }
+    }
+  }
+}
+patterns: [
+  {
+    match: '^\#.*$'
+    name: 'comment.line.hassle'
+  }
+  {
+    match: '^(\\-\\-[\\w]+)\\s(is)\\s([\\w\\d\\s.]+)$'
+    captures: {
+      1: { name: 'support.function.hassle' }
+      2: { name: 'keyword.operator.hassle' }
+      3: { name: 'entity.name.tag.hassle' }
+    }
+  }
+  {
+    match: 'on\\s([\\w\\s]+)$'
+    name: 'support.function.hassle'
+  }
+  {
+    match: '(name)\\s(is)\\s(.*)$'
+    captures: {
+      1: { name: 'support.function.hassle' }
+      2: { name: 'keyword.operator.hassle' }
+      3: { name: 'string.unquoted.hassle' }
+    }
+  }
+  {
+    match: '(default|cursor)\\s(is)\\s(.*)$'
+    captures: {
+      1: { name: 'support.function.hassle' }
+      2: { name: 'keyword.operator.hassle' }
+      3: { name: 'support.function.hassle' }
+    }
+  }
+  {
+    match: '(if)\\s(.*)'
+    name: 'conditional_branch.hassle'
+    captures: {
+      1: { name: 'keyword.operator.hassle' }
+      2: {
+        patterns: [
+          {
+            match: '\\s(run)\\s([\\w.]+)'
+            captures: {
+              1: {name: 'entity.name.function.hassle'}
+              2: {name: 'entity.name.function.hassle'}
+            }
+          }
+          {
+            match: '\\s(otherwise\\srun)\\s([\\w.]+)'
+            captures: {
+              1: {name: 'keyword.operator.hassle'}
+              2: {name: 'entity.name.function.hassle'}
+            }
+          }
+          { include: '#conditional_blocks' }
+        ]
+      }
+      3: { name: 'entity.name.function.hassle' }
+      4: { name: 'entity.name.function.hassle' }
+    }
+  }
+  {
+    match: '^(Actor:\\w+)$'
+    name: 'entity.name.character.hassle'
+  }
+  {
+    match: '^(Inventory|Object|Trigger|AlwaysTrigger):(\\w+)$'
+    captures: {
+      1: { name: 'entity.name.object.hassle'}
+      2: { name: 'entity.name.object.hassle'}
+    }
+  }
+  {
+    match: '^(scene|puzzle):(\\w+)$'
+    captures: {
+      1: { name: 'entity.name.object.hassle'}
+      2: { name: 'entity.name.function.hassle'}
+    }
+  }
+  {
+    match: '^(song):(\\w+)\\s(#[\\w]+)$'
+    captures: {
+      1: { name: 'entity.name.object.hassle'}
+      2: { name: 'entity.name.function.hassle'}
+      3: { name: 'data.unquoted.hassle'}
+    }
+  }
+  {
+    match: '^\\[([\\w\\s]+)\\]'
+    name: 'hassle_directive.hassle'
+    captures: {
+      1: { name: 'data.unquoted.hassle' }
+    }
+  }
+  {
+    match: '(call)\\s(\\w+)\\s(with)\\s(.*)'
+    name: 'call_function.hassle'
+    captures: {
+      1: { name: 'entity.name.function.hassle' }
+      2: { name: 'support.function.hassle' }
+      3: { name: 'entity.name.function.hassle' }
+      4: {
+        patterns: [
+          {
+            match: '([\\d.]+)',
+            captures: {
+              1: { name: 'constant.numeric.hassle'}
+            }
+          }
+          {
+            match: '(true|false|on|off)',
+            captures: {
+              1: { name: 'support.constant.hassle'}
+            }
+          }
+          {
+            match: '([\\w*-.,%?@&!;\'\\s£$:\\d]+)'
+            captures: {
+              1: { name: 'data.unquoted.hassle'}
+            }
+          }
+        ]
+      }
+    }
+  }
+# /^\((wait until |)([\w]+) (moves|teleports) to ([\w]+)\)$/
+  {
+    match: '^\\((wait until |)([\\w]+) (moves|teleports) to ([\\w]+)\\)'
+    name: 'move_actor_macro.hassle'
+    captures: {
+      1: { name: 'entity.name.function.hassle' }
+      2: { name: 'entity.name.character.hassle' }
+      3: { name: 'entity.name.function.hassle' }
+      4: { name: 'data.unquoted.hassle'}
+    }
+  }
+  {
+      match: '^(on\\s(bar|beat|intro bar|intro beat|outro bar|outro beat))\\s([\\d]+)'
+      name: 'song_call_function.hassle'
+      captures: {
+        1: { name: 'entity.name.function.hassle' }
+        2: { name: 'entity.name.function.hassle' }
+        3: { name: 'constant.numeric.hassle' }
+      }
+    }
+  {
+    match: '(run|spawn)\\s(\\w+)'
+    name: 'verb_triggered_jump.hassle'
+    captures: {
+      1: { name: 'entity.name.function.hassle' }
+      2: { name: 'entity.name.function.hassle' }
+    }
+  }
+  {
+    match: '(spawn)\\s(\\w+)\\sas\\s(\\w+)'
+    name: 'verb_triggered_labelled_jump.hassle'
+    captures: {
+      1: { name: 'entity.name.function.hassle' }
+      2: { name: 'entity.name.function.hassle' }
+      3: { name: 'data.unquoted.hassle' }
+    }
+  }
+  {
+    match: '^(while)\\s([\\w\\s\\d!@()])'
+    name: 'verb_triggered_labelled_jump.hassle'
+    captures: {
+      1: { name: 'entity.name.function.hassle' }
+      2: {
+        patterns: [
+          {
+            include: '#conditional_blocks'
+          }
+        ]
+      }
+    }
+  }
+  {
+    match: '(@[\\w.]+)\\s(is)\\s(on|off)'
+    name: 'flag_set.hassle'
+    captures: {
+      1: { name: 'entity.name.tag.hassle' }
+      2: { name: 'keyword.operator.hassle'}
+      3: { name: 'support.constant.hassle' }
+    }
+  }
+  {
+    match: '^(\\w+):\\s+([\\w*-.,%?@&!;\'\\s£$]+)\\[(.*)\\]$'
+    name: 'conditional_line.hassle'
+    captures: {
+      1: { name: 'entity.name.character.hassle' }
+      2: { name: 'string.unquoted.hassle'}
+      3: {
+        patterns: [
+          {
+            include: '#conditional_blocks'
+          }
+        ]
+      }
+    }
+    end: '$'
+  }
+  {
+    match: '^(\\d+)\\s+([\\w*-.,%?@&!;\'\\s£$]+)\\s(\\->)\\s(\\w+)\\s\\[(.*)\\]$'
+    name: 'conditional_dialog_block.hassle'
+    captures: {
+      1: { name: 'constant.numeric.hassle' }
+      2: { name: 'string.unquoted.hassle' }
+      3: { name: 'entity.name.function.hassle' }
+      4: { name: 'entity.name.function.hassle' }
+      5: {
+        patterns: [
+          {
+            include: '#conditional_blocks'
+          }
+        ]
+      }
+    }
+  }
+  {
+    match: '^(\\d+)\\s+([\\w*-.,%?@&!;\'\\s£$]+)\\s(\\->)\\s(\\w+)$'
+    name: 'dialog_block.hassle'
+    captures: {
+      1: { name: 'constant.numeric.hassle' }
+      2: { name: 'string.unquoted.hassle' }
+      3: { name: 'entity.name.function.hassle' }
+      4: { name: 'entity.name.function.hassle' }
+    }
+  }
+  {
+    match: '^(\\w+):\\s+([\\w*-.,%?@&!;\'\\s£$]+)$'
+    captures: {
+      1: { name: 'entity.name.character.hassle' }
+      2: { name: 'string.unquoted.hassle'}
+    }
+  }
+  {
+    match: '^\\s+([\\w\\s|@!-=().]+)\\?([\\w\\s@!=()->]+):([\\w\\s@!=()->]+)$'
+    captures: {
+      1: {
+        patterns: [
+          { include: '#function_call' }
+          { include: '#double_call' }
+          { include: '#string_call' }
+          { include: '#global_comparison' }
+          { include: '#remote_comparison' }
+        ]
+      }
+      2: {
+        patterns: [
+          { include: '#run_remote_script' }
+          { include: '#run_script' }
+          { include: '#global_set' }
+          { include: '#remote_set' }
+          { include: '#function_call' }
+          { include: '#double_call' }
+          { include: '#string_call' }
+        ]
+      }
+      3: {
+        patterns: [
+          { include: '#run_remote_script' }
+          { include: '#run_script' }
+          { include: '#global_set' }
+          { include: '#remote_set' }
+          { include: '#function_call' }
+          { include: '#double_call' }
+          { include: '#string_call' }
+        ]
+      }
+    }
+  }
+  {
+    match: '^\\s+([\\w\\s|@!-=().]+)\\?([\\w\\s@!=()->]+)$'
+    captures: {
+      1: {
+        patterns: [
+          { include: '#function_call' }
+          { include: '#double_call' }
+          { include: '#string_call' }
+          { include: '#global_comparison' }
+          { include: '#remote_comparison' }
+        ]
+      }
+      2: {
+        patterns: [
+          { include: '#run_remote_script' }
+          { include: '#run_script' }
+          { include: '#global_set' }
+          { include: '#remote_set' }
+          { include: '#function_call' }
+          { include: '#double_call' }
+          { include: '#string_call' }
+        ]
+      }
+    }
+  }
+  { include: '#function_call' }
+  { include: '#double_call' }
+  { include: '#string_call' }
+  { include: '#global_set' }
+  { include: '#remote_set' }
+  {
+    match: '^(\\((.*)\\))$'
+    captures: {
+      1: { name: 'stage_direction.hassle' }
+      2: patterns: [
+        { include: '#conditional_blocks'}
+      ]
+    }
+
+  }
+]
+scopeName: 'source.hassle'

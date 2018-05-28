@@ -1,0 +1,15 @@
+{
+  "name": "atom-hassle-syntax",
+  "main": "./lib/atom-hassle-syntax",
+  "version": "0.0.0",
+  "description": "Language support for Hassle",
+  "keywords": [
+  ],
+  "repository": "https://github.com/atom/atom-hassle-syntax",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+  }
+}

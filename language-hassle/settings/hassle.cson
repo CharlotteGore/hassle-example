@@ -1,0 +1,5 @@
+'.source.hassle':
+  'editor':
+    'commentStart': '#'
+    'tabLength': 2
+    'softTabs': true

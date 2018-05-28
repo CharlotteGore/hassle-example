@@ -1,0 +1,27 @@
+@import "syntax-variables";
+
+atom-text-editor {
+  .syntax--hassle.syntax--string.syntax--unquoted {
+    color: mix(#fff, @syntax-text-color, 40%);
+    font-style: italic;
+  }
+  .syntax--hassle.syntax--data.syntax--unquoted {
+    color: mix(#fa0, @syntax-text-color, 10%);
+    font-style: italic;
+  }
+  .syntax--hassle.syntax--entity.syntax--name.syntax--character {
+    color: mix(#fa0, @syntax-text-color, 50%);
+    font-weight: bold;
+  }
+  .syntax--hassle.syntax--entity.syntax--name.syntax--object {
+    color: mix(#fa0, @syntax-text-color, 50%);
+    font-weight: bold;
+  }
+  .syntax--hassle.syntax--entity.syntax--name.syntax--tag {
+    color: mix(#0fa, @syntax-text-color, 50%);
+    font-weight: bold;
+  }
+  .syntax--hassle.syntax--stage_direction {
+    font-style: italic;
+  }
+}
